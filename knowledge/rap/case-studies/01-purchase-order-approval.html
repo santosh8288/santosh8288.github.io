@@ -1,0 +1,130 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="Purchase Order Approval — SAP RAP case study by Santosh Jha."><title>Purchase Order Approval | RAP Case Studies</title><link rel="stylesheet" href="../../assets/css/rap-cases.css"></head><body>
+<header class="header"><nav class="nav container"><a class="brand" href="../../index.html"><span>SJ</span> Santosh Jha</a><div class="links"><a href="../../index.html">Home</a><a href="../index.html">RAP</a><a href="../../blog/index.html">Blog</a><a href="../../projects/index.html">Projects</a></div></nav></header>
+<section class="hero"><div class="container"><p class="eyebrow">RAP Case Study</p><h1>Purchase Order Approval</h1><p class="lead">A realistic RAP scenario for a purchase order that moves through Submit → Pending Approval → Approved/Rejected. This case intentionally separates the RAP business object from the enterprise workflow engine.</p></div></section>
+<main class="container layout"><aside class="toc"><strong>Case studies</strong><a href="index.html">All scenarios</a><a href="01-purchase-order-approval.html">01 · Purchase Order Approval</a><a href="02-travel-draft.html">02 · Travel Management — Draft to Active</a><a href="03-invoice-validation.html">03 · Supplier Invoice — Validation & Determination</a><a href="04-sales-order.html">04 · Sales Order — Action & Status Control</a><a href="05-employee-onboarding.html">05 · Employee Onboarding — Authorization & Feature Control</a><a href="06-maintenance-request.html">06 · Plant Maintenance Request — EML</a><a href="07-stock-transfer.html">07 · Stock Transfer — Transaction & Validation</a><a href="08-customer-credit.html">08 · Customer Credit Review — Approval & Authorization</a><a href="09-project-expense.html">09 · Project Expense Claim — Draft + Validation + Approval</a></aside><article><div class="note">Purchase Order approval is a strong example because it combines actions, validations, authorization, feature control, status transitions and integration/workflow concerns. In a real S/4HANA solution, approval may be implemented with SAP Flexible Workflow; RAP should expose a clean business object and business operations rather than reinventing the workflow engine.</div><div class="note">Business rule: a draft PO can be submitted only when mandatory data is complete. A submitted PO becomes Pending Approval. An authorized approver can Approve or Reject. Rejection requires a reason. A rejected PO can be resubmitted after correction.</div><div class="note">Important architecture boundary: the sample below demonstrates the RAP business-object side. For production S/4HANA procurement, SAP provides flexible workflow capabilities for purchase-order approval, including configurable start conditions and one-step or multi-step approval. citeturn0search9turn0search19</div><h2>CDS root entity</h2><pre>define root view entity ZI_PurchaseOrder
+  as select from zpo_header
+{
+  key po_uuid        as PurchaseOrderUUID,
+      po_number      as PurchaseOrder,
+      supplier_id    as Supplier,
+      company_code   as CompanyCode,
+      total_amount   as TotalAmount,
+      currency_code  as Currency,
+      status         as Status,
+      approval_note  as ApprovalNote,
+      created_by     as CreatedBy,
+      created_at     as CreatedAt,
+      last_changed_at as LastChangedAt
+}</pre><h2>Behavior definition</h2><pre>managed implementation in class zbp_i_purchaseorder unique;
+strict ( 2 );
+
+define behavior for ZI_PurchaseOrder alias PurchaseOrder
+persistent table zpo_header
+lock master
+authorization master ( instance )
+etag master LastChangedAt
+{
+  create;
+  update;
+  delete;
+
+  action submit result [1] $self;
+  action approve result [1] $self;
+  action reject parameter ZD_PoReject result [1] $self;
+
+  validation validateAmount on save { create; update; }
+  validation validateSubmit on save { create; update; }
+
+  field ( readonly ) PurchaseOrderUUID, PurchaseOrder,
+                         Status, CreatedBy, CreatedAt, LastChangedAt;
+
+  mapping for zpo_header {
+    PurchaseOrderUUID = po_uuid;
+    PurchaseOrder     = po_number;
+    Supplier          = supplier_id;
+    CompanyCode       = company_code;
+    TotalAmount       = total_amount;
+    Currency          = currency_code;
+    Status            = status;
+    ApprovalNote      = approval_note;
+    CreatedBy         = created_by;
+    CreatedAt         = created_at;
+    LastChangedAt     = last_changed_at;
+  }
+}</pre><h2>Action implementation</h2><pre>METHOD submit.
+
+  READ ENTITIES OF zi_purchaseorder IN LOCAL MODE
+    ENTITY PurchaseOrder
+    FIELDS ( Status Supplier CompanyCode TotalAmount )
+    WITH CORRESPONDING #( keys )
+    RESULT DATA(orders).
+
+  LOOP AT orders ASSIGNING FIELD-SYMBOL(<po>).
+
+    IF <po>-Status <> 'DRAFT'.
+      APPEND VALUE #( %tky = <po>-%tky ) TO failed-purchaseorder.
+      APPEND VALUE #(
+        %tky = <po>-%tky
+        %msg = new_message_with_text(
+                 severity = if_abap_behv_message=>severity-error
+                 text     = 'Only draft purchase orders can be submitted' )
+      ) TO reported-purchaseorder.
+      CONTINUE.
+    ENDIF.
+
+    MODIFY ENTITIES OF zi_purchaseorder IN LOCAL MODE
+      ENTITY PurchaseOrder
+      UPDATE FIELDS ( Status )
+      WITH VALUE #( ( %tky = <po>-%tky Status = 'PENDING' ) )
+      FAILED DATA(update_failed)
+      REPORTED DATA(update_reported).
+
+  ENDLOOP.
+
+ENDMETHOD.</pre><h2>Approve / reject logic</h2><pre>METHOD approve.
+
+  READ ENTITIES OF zi_purchaseorder IN LOCAL MODE
+    ENTITY PurchaseOrder
+    FIELDS ( Status )
+    WITH CORRESPONDING #( keys )
+    RESULT DATA(orders).
+
+  LOOP AT orders ASSIGNING FIELD-SYMBOL(<po>).
+    IF <po>-Status <> 'PENDING'.
+      APPEND VALUE #( %tky = <po>-%tky ) TO failed-purchaseorder.
+      CONTINUE.
+    ENDIF.
+
+    MODIFY ENTITIES OF zi_purchaseorder IN LOCAL MODE
+      ENTITY PurchaseOrder
+      UPDATE FIELDS ( Status )
+      WITH VALUE #( ( %tky = <po>-%tky Status = 'APPROVED' ) ).
+  ENDLOOP.
+
+ENDMETHOD.
+
+METHOD reject.
+  "Read the supplied rejection reason, validate it,
+  "then set status to REJECTED and persist the reason.
+ENDMETHOD.</pre><h2>Validation</h2><pre>METHOD validateAmount.
+
+  READ ENTITIES OF zi_purchaseorder IN LOCAL MODE
+    ENTITY PurchaseOrder
+    FIELDS ( TotalAmount Currency )
+    WITH CORRESPONDING #( keys )
+    RESULT DATA(orders).
+
+  LOOP AT orders ASSIGNING FIELD-SYMBOL(<po>).
+    IF <po>-TotalAmount <= 0.
+      APPEND VALUE #( %tky = <po>-%tky ) TO failed-purchaseorder.
+      APPEND VALUE #(
+        %tky = <po>-%tky
+        %msg = new_message_with_text(
+          severity = if_abap_behv_message=>severity-error
+          text = 'Purchase order amount must be greater than zero' )
+      ) TO reported-purchaseorder.
+    ENDIF.
+  ENDLOOP.
+
+ENDMETHOD.</pre><section><div class="tip"><strong>Production note:</strong> The code is intentionally a teaching/reference skeleton. CDS entity names, database fields, message classes, authorization implementation, released APIs and syntax can vary by ABAP platform/SAP S/4HANA release. Activate and test against your target system before treating it as production code.</div></section></article></main>
+<footer><div class="container footer"><span>© 2026 Santosh Jha</span><span>SAP RAP Knowledge Hub</span></div></footer></body></html>

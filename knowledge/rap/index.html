@@ -1,1 +1,1197 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="RESTful Application Programming Model — Santosh Jha technical knowledge hub."><title>RAP | Santosh Jha</title><link rel="stylesheet" href="../../assets/css/style.css"></head><body><header class="site-header"><nav class="nav container"><a class="brand" href="../../index.html"><span>SJ</span> Santosh Jha</a><div class="nav-links"><a href="../../index.html">Home</a><a href="../../knowledge/rap/index.html">RAP</a><a href="../../knowledge/abap/index.html">ABAP</a><a href="../../knowledge/ai/index.html">AI</a><a href="../../blog/index.html">Blog</a></div></nav></header><main><section class="hero" style="min-height:70vh"><div class="container"><p class="eyebrow">SAP / RAP</p><h1>RESTful Application Programming Model</h1><p class="lead">A structured learning path for RAP — from fundamentals and architecture to behavior, EML, services and Fiori.</p></div></section><section class="section alt"><div class="container"><div class="topic-grid"><a class="topic" href="article.html"><small>RAP 01</small><h3>Introduction</h3><p>What RAP is, why it matters and where it fits in modern SAP development.</p><span>Open →</span></a><a class="topic" href="architecture.html"><small>RAP 02</small><h3>Architecture</h3><p>A practical view of the RAP architecture and its layers.</p><span>Open →</span></a><a class="topic" href="data-model.html"><small>RAP 03</small><h3>Data Model</h3><p>CDS entities, compositions and modeling business objects.</p><span>Open →</span></a><a class="topic" href="behavior.html"><small>RAP 04</small><h3>Behavior</h3><p>Behavior definitions, implementations, validations, determinations and actions.</p><span>Open →</span></a><a class="topic" href="eml.html"><small>RAP 05</small><h3>EML</h3><p>Transactional programming and interaction with RAP business objects.</p><span>Open →</span></a><a class="topic" href="draft.html"><small>RAP 06</small><h3>Draft</h3><p>Draft-enabled applications and transactional consistency.</p><span>Open →</span></a><a class="topic" href="services.html"><small>RAP 07</small><h3>Services</h3><p>Service definition, service binding and OData exposure.</p><span>Open →</span></a><a class="topic" href="fiori.html"><small>RAP 08</small><h3>Fiori</h3><p>Connecting RAP services with Fiori Elements applications.</p><span>Open →</span></a></div></div></section></main><footer><div class="container footer"><span>© 2026 Santosh Jha</span><span>SAP Knowledge Hub</span></div></footer></body></html>
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+
+    <meta name="description"
+        content="SAP RAP Knowledge Hub by Santosh Jha — practical RAP architecture, ABAP code, business scenarios, draft handling, actions, validations, EML, authorization, Fiori Elements and clean-core guidance.">
+
+    <meta name="author" content="Santosh Jha">
+
+    <title>RAP Knowledge Hub | Santosh Jha</title>
+
+    <link rel="stylesheet" href="../../assets/css/rap.css">
+</head>
+
+<body>
+
+    <!-- ================= HEADER ================= -->
+
+    <header class="site-header">
+
+        <nav class="nav container">
+
+            <a class="brand" href="../../index.html">
+                <span>SJ</span>
+                Santosh Jha
+            </a>
+
+            <div class="nav-links">
+
+                <a href="../../index.html">Home</a>
+
+                <a class="active" href="index.html">
+                    RAP
+                </a>
+
+                <a href="../abap/index.html">
+                    ABAP
+                </a>
+
+                <a href="../ai/index.html">
+                    AI
+                </a>
+
+                <a href="../../projects/index.html">
+                    Projects
+                </a>
+
+                <a href="../../blog/index.html">
+                    Blog
+                </a>
+
+            </div>
+
+        </nav>
+
+    </header>
+
+
+    <!-- ================= HERO ================= -->
+
+    <section class="hero">
+
+        <div class="container">
+
+            <p class="eyebrow">
+                SAP Knowledge Hub / RAP
+            </p>
+
+            <h1>
+                RAP, from
+                <em>concept to architecture.</em>
+            </h1>
+
+            <p class="lead">
+                A practical SAP RAP knowledge hub covering business-object
+                modeling, behavior, transactional processing, services,
+                Fiori Elements, authorization, testing, performance and
+                clean-core architecture.
+            </p>
+
+            <div class="hero-actions">
+
+                <a class="btn" href="case-studies/index.html">
+                    Explore Real-World Case Studies →
+                </a>
+
+                <a class="btn secondary" href="01-introduction.html">
+                    Start RAP Fundamentals
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= MAIN ================= -->
+
+    <main class="container layout">
+
+
+        <!-- ================= SIDEBAR ================= -->
+
+        <aside class="toc">
+
+            <strong>
+                RAP Knowledge Roadmap
+            </strong>
+
+            <a href="index.html">
+                Overview
+            </a>
+
+            <a href="01-introduction.html">
+                01 · RAP Introduction
+            </a>
+
+            <a href="02-architecture.html">
+                02 · RAP Architecture
+            </a>
+
+            <a href="03-data-model.html">
+                03 · RAP Data Model
+            </a>
+
+            <a href="04-behavior-definition.html">
+                04 · Behavior Definition
+            </a>
+
+            <a href="05-behavior-implementation.html">
+                05 · Behavior Implementation
+            </a>
+
+            <a href="06-managed-vs-unmanaged.html">
+                06 · Managed vs Unmanaged RAP
+            </a>
+
+            <a href="07-draft.html">
+                07 · RAP Draft
+            </a>
+
+            <a href="08-determinations.html">
+                08 · RAP Determinations
+            </a>
+
+            <a href="09-validations.html">
+                09 · RAP Validations
+            </a>
+
+            <a href="10-actions.html">
+                10 · RAP Actions
+            </a>
+
+            <a href="11-eml.html">
+                11 · Entity Manipulation Language
+            </a>
+
+            <a href="12-authorization.html">
+                12 · RAP Authorization
+            </a>
+
+            <a href="13-service-definition.html">
+                13 · Service Definition
+            </a>
+
+            <a href="14-service-binding.html">
+                14 · Service Binding
+            </a>
+
+            <a href="15-fiori-elements.html">
+                15 · RAP with Fiori Elements
+            </a>
+
+            <a href="16-testing.html">
+                16 · Testing RAP Applications
+            </a>
+
+            <a href="17-performance.html">
+                17 · RAP Performance
+            </a>
+
+            <a href="18-clean-core.html">
+                18 · RAP and Clean Core
+            </a>
+
+            <hr>
+
+            <strong>
+                Practical Scenarios
+            </strong>
+
+            <a href="case-studies/index.html">
+                Case Studies →
+            </a>
+
+            <a href="case-studies/01-purchase-order-approval.html">
+                Purchase Order Approval
+            </a>
+
+            <a href="case-studies/02-travel-draft.html">
+                Travel Draft
+            </a>
+
+            <a href="case-studies/03-invoice-validation.html">
+                Supplier Invoice
+            </a>
+
+            <a href="case-studies/04-sales-order.html">
+                Sales Order
+            </a>
+
+            <a href="case-studies/05-employee-onboarding.html">
+                Employee Onboarding
+            </a>
+
+            <a href="case-studies/06-maintenance-request.html">
+                Maintenance Request
+            </a>
+
+            <a href="case-studies/07-stock-transfer.html">
+                Stock Transfer
+            </a>
+
+            <a href="case-studies/08-customer-credit.html">
+                Customer Credit Review
+            </a>
+
+            <a href="case-studies/09-project-expense.html">
+                Project Expense Claim
+            </a>
+
+        </aside>
+
+
+        <!-- ================= CONTENT ================= -->
+
+        <article>
+
+
+            <!-- ================= INTRO ================= -->
+
+            <section class="article-section">
+
+                <p class="eyebrow">
+                    RAP Architecture
+                </p>
+
+                <h2>
+                    Learn RAP as a complete business-object model
+                </h2>
+
+                <p>
+                    SAP's RESTful Application Programming Model becomes
+                    much easier to understand when it is treated as an
+                    end-to-end business application architecture rather
+                    than a collection of individual ABAP features.
+                </p>
+
+                <p>
+                    The central idea is simple:
+                    <strong>model a business object, define what it can do,
+                    implement the business rules, expose the object as a
+                    service and consume it through a suitable client.</strong>
+                </p>
+
+
+                <div class="grid">
+
+                    <div class="card">
+
+                        <h3>
+                            01 · Model
+                        </h3>
+
+                        <p>
+                            CDS entities define the business data model,
+                            relationships, compositions, associations,
+                            keys and projections.
+                        </p>
+
+                    </div>
+
+
+                    <div class="card">
+
+                        <h3>
+                            02 · Behavior
+                        </h3>
+
+                        <p>
+                            Behavior definitions describe what the business
+                            object can do: create, update, delete, actions,
+                            validations and determinations.
+                        </p>
+
+                    </div>
+
+
+                    <div class="card">
+
+                        <h3>
+                            03 · Transaction
+                        </h3>
+
+                        <p>
+                            RAP controls transactional processing through
+                            EML, locking, draft handling, save processing
+                            and transactional messages.
+                        </p>
+
+                    </div>
+
+
+                    <div class="card">
+
+                        <h3>
+                            04 · Expose
+                        </h3>
+
+                        <p>
+                            Service definitions and bindings expose the
+                            business object through OData for Fiori Elements
+                            and other consumers.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- ================= REAL WORLD CASE STUDIES ================= -->
+
+            <section class="article-section">
+
+                <p class="eyebrow">
+                    Learn by Building
+                </p>
+
+                <h2>
+                    Real-World RAP Case Studies
+                </h2>
+
+                <p>
+                    RAP concepts become much more useful when they are
+                    connected to actual enterprise business requirements.
+                    This section uses practical SAP scenarios to demonstrate
+                    how the architecture is applied.
+                </p>
+
+
+                <div class="grid">
+
+
+                    <a class="card" href="case-studies/01-purchase-order-approval.html">
+
+                        <span class="eyebrow">
+                            CASE 01
+                        </span>
+
+                        <h3>
+                            Purchase Order Approval
+                        </h3>
+
+                        <p>
+                            Build a purchase-order business object with
+                            submission, approval, rejection, validations
+                            and status management.
+                        </p>
+
+                        <span>
+                            View Case Study →
+                        </span>
+
+                    </a>
+
+
+                    <a class="card" href="case-studies/02-travel-draft.html">
+
+                        <span class="eyebrow">
+                            CASE 02
+                        </span>
+
+                        <h3>
+                            Travel Management
+                        </h3>
+
+                        <p>
+                            Understand managed draft using a realistic
+                            travel-request business process.
+                        </p>
+
+                        <span>
+                            View Case Study →
+                        </span>
+
+                    </a>
+
+
+                    <a class="card" href="case-studies/03-invoice-validation.html">
+
+                        <span class="eyebrow">
+                            CASE 03
+                        </span>
+
+                        <h3>
+                            Supplier Invoice
+                        </h3>
+
+                        <p>
+                            Use determinations to calculate values and
+                            validations to protect business rules.
+                        </p>
+
+                        <span>
+                            View Case Study →
+                        </span>
+
+                    </a>
+
+
+                    <a class="card" href="case-studies/04-sales-order.html">
+
+                        <span class="eyebrow">
+                            CASE 04
+                        </span>
+
+                        <h3>
+                            Sales Order
+                        </h3>
+
+                        <p>
+                            Model business actions and controlled order
+                            state transitions.
+                        </p>
+
+                        <span>
+                            View Case Study →
+                        </span>
+
+                    </a>
+
+
+                    <a class="card" href="case-studies/05-employee-onboarding.html">
+
+                        <span class="eyebrow">
+                            CASE 05
+                        </span>
+
+                        <h3>
+                            Employee Onboarding
+                        </h3>
+
+                        <p>
+                            Explore authorization and instance-based
+                            feature control.
+                        </p>
+
+                        <span>
+                            View Case Study →
+                        </span>
+
+                    </a>
+
+
+                    <a class="card" href="case-studies/06-maintenance-request.html">
+
+                        <span class="eyebrow">
+                            CASE 06
+                        </span>
+
+                        <h3>
+                            Maintenance Request
+                        </h3>
+
+                        <p>
+                            Understand Entity Manipulation Language through
+                            a practical maintenance scenario.
+                        </p>
+
+                        <span>
+                            View Case Study →
+                        </span>
+
+                    </a>
+
+
+                    <a class="card" href="case-studies/07-stock-transfer.html">
+
+                        <span class="eyebrow">
+                            CASE 07
+                        </span>
+
+                        <h3>
+                            Stock Transfer
+                        </h3>
+
+                        <p>
+                            Validate a stock-transfer request and model
+                            transactional business operations.
+                        </p>
+
+                        <span>
+                            View Case Study →
+                        </span>
+
+                    </a>
+
+
+                    <a class="card" href="case-studies/08-customer-credit.html">
+
+                        <span class="eyebrow">
+                            CASE 08
+                        </span>
+
+                        <h3>
+                            Customer Credit Review
+                        </h3>
+
+                        <p>
+                            Combine approval, authorization, status
+                            transitions and decision history.
+                        </p>
+
+                        <span>
+                            View Case Study →
+                        </span>
+
+                    </a>
+
+
+                    <a class="card" href="case-studies/09-project-expense.html">
+
+                        <span class="eyebrow">
+                            CASE 09
+                        </span>
+
+                        <h3>
+                            Project Expense Claim
+                        </h3>
+
+                        <p>
+                            Combine draft handling, validations,
+                            determinations and approval.
+                        </p>
+
+                        <span>
+                            View Case Study →
+                        </span>
+
+                    </a>
+
+
+                </div>
+
+
+                <div class="tip">
+
+                    <strong>
+                        Recommended approach:
+                    </strong>
+
+                    Learn the RAP concept first, then see how the same
+                    concept is applied in a real enterprise scenario.
+
+                </div>
+
+            </section>
+
+
+            <!-- ================= CORE MENTAL MODEL ================= -->
+
+            <section class="article-section">
+
+                <p class="eyebrow">
+                    Core Mental Model
+                </p>
+
+                <h2>
+                    From Business Requirement to Fiori Application
+                </h2>
+
+                <pre>
+Business Requirement
+        ↓
+Business Object
+        ↓
+CDS Data Model
+        ↓
+Behavior Definition
+        ↓
+Behavior Implementation
+        ↓
+Transactional Processing / EML
+        ↓
+Authorization
+        ↓
+Service Definition
+        ↓
+Service Binding / OData
+        ↓
+Fiori Elements / Consumer
+                </pre>
+
+
+                <div class="tip">
+
+                    <strong>
+                        Architect's perspective:
+                    </strong>
+
+                    Design the business object and transaction boundary
+                    before designing the UI.
+
+                </div>
+
+            </section>
+
+
+            <!-- ================= RAP LAYERS ================= -->
+
+            <section class="article-section">
+
+                <p class="eyebrow">
+                    Architecture
+                </p>
+
+                <h2>
+                    The RAP Architecture Layers
+                </h2>
+
+
+                <div class="grid">
+
+
+                    <div class="card">
+
+                        <h3>
+                            Data Model
+                        </h3>
+
+                        <p>
+                            CDS view entities represent business data and
+                            define relationships between business objects.
+                        </p>
+
+                        <p>
+                            Typical topics:
+                        </p>
+
+                        <p>
+                            CDS · Associations · Compositions · Keys ·
+                            Projections
+                        </p>
+
+                    </div>
+
+
+                    <div class="card">
+
+                        <h3>
+                            Behavior Layer
+                        </h3>
+
+                        <p>
+                            The behavior definition describes the allowed
+                            transactional operations and business rules.
+                        </p>
+
+                        <p>
+                            Typical topics:
+                        </p>
+
+                        <p>
+                            CRUD · Actions · Validations · Determinations
+                        </p>
+
+                    </div>
+
+
+                    <div class="card">
+
+                        <h3>
+                            Transaction Layer
+                        </h3>
+
+                        <p>
+                            RAP manages transactional interaction through
+                            the business-object contract.
+                        </p>
+
+                        <p>
+                            Typical topics:
+                        </p>
+
+                        <p>
+                            EML · Draft · Locking · Save Sequence · Messages
+                        </p>
+
+                    </div>
+
+
+                    <div class="card">
+
+                        <h3>
+                            Service Layer
+                        </h3>
+
+                        <p>
+                            The business object becomes consumable through
+                            service definitions and service bindings.
+                        </p>
+
+                        <p>
+                            Typical topics:
+                        </p>
+
+                        <p>
+                            OData · Service Definition · Service Binding
+                        </p>
+
+                    </div>
+
+
+                    <div class="card">
+
+                        <h3>
+                            UI Layer
+                        </h3>
+
+                        <p>
+                            Fiori Elements can consume the exposed RAP
+                            service and generate much of the application
+                            experience from metadata and annotations.
+                        </p>
+
+                    </div>
+
+
+                    <div class="card">
+
+                        <h3>
+                            Security & Quality
+                        </h3>
+
+                        <p>
+                            Production applications also require
+                            authorization, testing, performance analysis,
+                            extensibility and clean-core considerations.
+                        </p>
+
+                    </div>
+
+
+                </div>
+
+            </section>
+
+
+            <!-- ================= LEARNING ROADMAP ================= -->
+
+            <section class="article-section">
+
+                <p class="eyebrow">
+                    Learning Path
+                </p>
+
+                <h2>
+                    Recommended RAP Learning Sequence
+                </h2>
+
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+                            <th>
+                                Stage
+                            </th>
+
+                            <th>
+                                Question
+                            </th>
+
+                            <th>
+                                Topics
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        <tr>
+
+                            <td>
+                                1. Model
+                            </td>
+
+                            <td>
+                                What is the business object?
+                            </td>
+
+                            <td>
+                                CDS, keys, compositions,
+                                associations, projections
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                2. Behavior
+                            </td>
+
+                            <td>
+                                What can it do?
+                            </td>
+
+                            <td>
+                                CRUD, actions, determinations,
+                                validations
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                3. Transaction
+                            </td>
+
+                            <td>
+                                How are changes processed?
+                            </td>
+
+                            <td>
+                                EML, locking, draft,
+                                save processing
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                4. Security
+                            </td>
+
+                            <td>
+                                Who can perform the operation?
+                            </td>
+
+                            <td>
+                                Authorization,
+                                feature control
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                5. Service
+                            </td>
+
+                            <td>
+                                How is it consumed?
+                            </td>
+
+                            <td>
+                                Service definition,
+                                binding, OData
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                6. UI
+                            </td>
+
+                            <td>
+                                How does the user interact?
+                            </td>
+
+                            <td>
+                                Fiori Elements,
+                                annotations, side effects
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                7. Quality
+                            </td>
+
+                            <td>
+                                Can it scale and remain maintainable?
+                            </td>
+
+                            <td>
+                                Testing, performance,
+                                clean core
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </section>
+
+
+            <!-- ================= ARCHITECT QUESTIONS ================= -->
+
+            <section class="article-section">
+
+                <p class="eyebrow">
+                    Solution Architecture
+                </p>
+
+                <h2>
+                    Questions an SAP Solution Architect Should Ask
+                </h2>
+
+
+                <div class="grid">
+
+
+                    <div class="card">
+
+                        <h3>
+                            Business Object
+                        </h3>
+
+                        <p>
+                            What is the real business object?
+                            What is its lifecycle?
+                            Which entities belong to it?
+                        </p>
+
+                    </div>
+
+
+                    <div class="card">
+
+                        <h3>
+                            Transaction Boundary
+                        </h3>
+
+                        <p>
+                            Which changes must be committed together?
+                            Where should the transaction begin and end?
+                        </p>
+
+                    </div>
+
+
+                    <div class="card">
+
+                        <h3>
+                            Behavior
+                        </h3>
+
+                        <p>
+                            Is this operation CRUD, an action,
+                            a determination or a validation?
+                        </p>
+
+                    </div>
+
+
+                    <div class="card">
+
+                        <h3>
+                            Authorization
+                        </h3>
+
+                        <p>
+                            Who can see the object?
+                            Who can modify it?
+                            Who can approve it?
+                        </p>
+
+                    </div>
+
+
+                    <div class="card">
+
+                        <h3>
+                            Integration
+                        </h3>
+
+                        <p>
+                            Should the solution use RAP,
+                            released APIs, events, workflow
+                            or another integration mechanism?
+                        </p>
+
+                    </div>
+
+
+                    <div class="card">
+
+                        <h3>
+                            Clean Core
+                        </h3>
+
+                        <p>
+                            Is the extension using released
+                            APIs and extension points rather
+                            than modifying SAP standard?
+                        </p>
+
+                    </div>
+
+
+                </div>
+
+            </section>
+
+
+            <!-- ================= CASE STUDY CTA ================= -->
+
+            <section class="article-section">
+
+                <div class="tip">
+
+                    <p class="eyebrow">
+                        Next Step
+                    </p>
+
+                    <h2>
+                        See RAP in Action
+                    </h2>
+
+                    <p>
+                        Move from theory to implementation through
+                        real-world enterprise scenarios with CDS,
+                        behavior definitions, ABAP implementations,
+                        validations, actions, draft handling,
+                        authorization and EML.
+                    </p>
+
+                    <a class="btn" href="case-studies/index.html">
+                        Open RAP Case Studies →
+                    </a>
+
+                </div>
+
+            </section>
+
+
+            <!-- ================= PUBLISHING ================= -->
+
+            <section class="article-section">
+
+                <p class="eyebrow">
+                    Knowledge Hub
+                </p>
+
+                <h2>
+                    How These Articles Will Evolve
+                </h2>
+
+                <p>
+                    Each topic is intended to grow into a detailed
+                    technical article rather than remain a simple
+                    definition page.
+                </p>
+
+
+                <div class="grid">
+
+
+                    <div class="card">
+
+                        <h3>
+                            Practical Code
+                        </h3>
+
+                        <p>
+                            Tested CDS, behavior definitions,
+                            behavior implementations and EML examples.
+                        </p>
+
+                    </div>
+
+
+                    <div class="card">
+
+                        <h3>
+                            Architecture Diagrams
+                        </h3>
+
+                        <p>
+                            Visualize how RAP components interact
+                            from database to Fiori.
+                        </p>
+
+                    </div>
+
+
+                    <div class="card">
+
+                        <h3>
+                            Real Projects
+                        </h3>
+
+                        <p>
+                            Business scenarios showing when and
+                            why a particular RAP capability is used.
+                        </p>
+
+                    </div>
+
+
+                    <div class="card">
+
+                        <h3>
+                            Architect's Notes
+                        </h3>
+
+                        <p>
+                            Design decisions, trade-offs,
+                            performance considerations and
+                            common mistakes.
+                        </p>
+
+                    </div>
+
+
+                </div>
+
+
+                <div class="tip">
+
+                    <strong>
+                        Publishing rule:
+                    </strong>
+
+                    Publish only tested examples and never expose
+                    confidential customer code, credentials,
+                    API keys or internal architecture details.
+
+                </div>
+
+            </section>
+
+
+        </article>
+
+    </main>
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer>
+
+        <div class="container footer">
+
+            <span>
+                © 2026 Santosh Jha
+            </span>
+
+            <span>
+                SAP Knowledge Hub · RAP
+            </span>
+
+        </div>
+
+    </footer>
+
+
+</body>
+
+</html>

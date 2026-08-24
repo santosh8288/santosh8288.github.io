@@ -1,0 +1,61 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="Travel Management — Draft to Active — SAP RAP case study by Santosh Jha."><title>Travel Management — Draft to Active | RAP Case Studies</title><link rel="stylesheet" href="../../assets/css/rap-cases.css"></head><body>
+<header class="header"><nav class="nav container"><a class="brand" href="../../index.html"><span>SJ</span> Santosh Jha</a><div class="links"><a href="../../index.html">Home</a><a href="../index.html">RAP</a><a href="../../blog/index.html">Blog</a><a href="../../projects/index.html">Projects</a></div></nav></header>
+<section class="hero"><div class="container"><p class="eyebrow">RAP Case Study</p><h1>Travel Management — Draft to Active</h1><p class="lead">A travel-request business object is ideal for demonstrating managed draft. The employee can enter dates, destination and cost, leave the application, return later, and finally activate the request.</p></div></section>
+<main class="container layout"><aside class="toc"><strong>Case studies</strong><a href="index.html">All scenarios</a><a href="01-purchase-order-approval.html">01 · Purchase Order Approval</a><a href="02-travel-draft.html">02 · Travel Management — Draft to Active</a><a href="03-invoice-validation.html">03 · Supplier Invoice — Validation & Determination</a><a href="04-sales-order.html">04 · Sales Order — Action & Status Control</a><a href="05-employee-onboarding.html">05 · Employee Onboarding — Authorization & Feature Control</a><a href="06-maintenance-request.html">06 · Plant Maintenance Request — EML</a><a href="07-stock-transfer.html">07 · Stock Transfer — Transaction & Validation</a><a href="08-customer-credit.html">08 · Customer Credit Review — Approval & Authorization</a><a href="09-project-expense.html">09 · Project Expense Claim — Draft + Validation + Approval</a></aside><article><div class="note">RAP draft handling is managed by the RAP transactional engine. Enabling `with draft` makes the business object draft-aware; the runtime persists intermediate transactional state, while the application focuses on business logic. SAP's own RAP documentation uses a Travel business object as a draft example. citeturn0search0turn0search2</div><h2>CDS root</h2><pre>@EndUserText.label: 'Travel Request'
+define root view entity ZI_TravelRequest
+  as select from ztravel_request
+  composition [0..*] of ZI_TravelExpense as _Expense
+{
+  key travel_uuid       as TravelUUID,
+      travel_id         as TravelID,
+      employee_id       as Employee,
+      destination       as Destination,
+      begin_date        as BeginDate,
+      end_date          as EndDate,
+      purpose           as Purpose,
+      total_estimated   as TotalEstimated,
+      currency_code     as Currency,
+      overall_status    as OverallStatus,
+      local_last_changed_at as LastChangedAt,
+
+      _Expense
+}</pre><h2>Managed draft behavior</h2><pre>managed implementation in class zbp_i_travel unique;
+strict ( 2 );
+with draft;
+
+define behavior for ZI_TravelRequest alias Travel
+persistent table ztravel_request
+draft table ztravel_request_d
+lock master
+total etag LastChangedAt
+authorization master ( instance )
+{
+  create;
+  update;
+  delete;
+
+  association _Expense { create; with draft; }
+
+  validation validateDates on save { create; update; }
+  determination calculateTotal on modify { field ExpenseAmount; }
+
+  draft determine action Prepare
+  {
+    validation validateDates;
+  }
+
+  field ( readonly ) TravelUUID, TravelID, OverallStatus, LastChangedAt;
+}</pre><h2>Draft lifecycle</h2><p>User creates Travel Request
+        ↓
+RAP creates draft instance
+        ↓
+User edits destination/dates/expenses
+        ↓
+Determinations + validations
+        ↓
+Prepare
+        ↓
+Activate
+        ↓
+Active Travel Request</p><h2>Implementation note</h2><p>For draft-enabled behavior, use `%tky` when referring to transactional instances. SAP documents that the draft indicator `%is_draft` becomes part of the transactional key in draft scenarios, which helps implementations address draft and active instances correctly. citeturn0search4</p><section><div class="tip"><strong>Production note:</strong> The code is intentionally a teaching/reference skeleton. CDS entity names, database fields, message classes, authorization implementation, released APIs and syntax can vary by ABAP platform/SAP S/4HANA release. Activate and test against your target system before treating it as production code.</div></section></article></main>
+<footer><div class="container footer"><span>© 2026 Santosh Jha</span><span>SAP RAP Knowledge Hub</span></div></footer></body></html>
